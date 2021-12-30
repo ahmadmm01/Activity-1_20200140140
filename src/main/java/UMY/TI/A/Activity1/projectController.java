@@ -20,40 +20,25 @@ public class projectController {
     @RequestMapping("/input")
     public String getData(HttpServletRequest data, Model discountprocess){
         
-        String inputname = data.getParameter("var_name");
+        proses prosesdata = new proses();
         
-        String inputprice = data.getParameter("var_price");
+        String name = prosesdata.dataName(data);
+        String price = prosesdata.dataPrice(data);
+        String quantity = prosesdata.dataQuantity(data);
         
-        String inputquantity = data.getParameter("var_quantity");
+        Double iprice = prosesdata.dataiPrice(price);
+        Double itotal = prosesdata.dataiTotal(quantity);
+        Double pricetotal = prosesdata.dataPriceTotal(iprice, itotal);
+        Double gettotal = prosesdata.dataTotalPrice(pricetotal);
+        String diskon = prosesdata.dataDiscount(pricetotal, gettotal);
         
-        String diskone = "";
         
-        Double iPrice = Double.valueOf(inputprice);
-        Double iTotal = Double.valueOf(inputquantity);
-        Double PriceTotal = iPrice * iTotal;
-        Double getTotal = null;
-        
-        if (PriceTotal < 16000)
-        {
-            getTotal = PriceTotal - (0 * PriceTotal/100);
-            diskone = "0%";
-        }
-        else if (PriceTotal >= 16000 && PriceTotal < 25000)
-        {
-            getTotal = PriceTotal - (10 * PriceTotal/100);
-            diskone = "10%";
-        }
-        else if (PriceTotal >= 25000)
-        {
-            getTotal = PriceTotal - (15 * PriceTotal/100);
-            diskone = "15%";
-        }
-        
-        discountprocess.addAttribute("name", inputname);
-        discountprocess.addAttribute("price", inputprice);
-        discountprocess.addAttribute("quantity", inputquantity);
-        discountprocess.addAttribute("total", getTotal);
-        discountprocess.addAttribute("diskone", diskone);
+        discountprocess.addAttribute("name", name);
+        discountprocess.addAttribute("price", price);
+        discountprocess.addAttribute("quantity", quantity);
+        discountprocess.addAttribute("pricetotal", pricetotal);
+        discountprocess.addAttribute("total", gettotal);
+        discountprocess.addAttribute("diskone", diskon);
         
         return "AhmadMusthafaMasyhur";
     }    
